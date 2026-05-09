@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 
-// Pixel ratio durante interação ativa (drag/zoom): a câmera tá se mexendo,
-// motion blur do olho mascara perda de nitidez, e cair de 1.5 → 0.75 corta
-// ~75% do trabalho de fragment shader. Volta pra HIGH só depois que o
-// movimento da câmera realmente para — incluindo o fling do damping pós-drag.
-const PIXEL_RATIO_HIGH = 1.5;
-const PIXEL_RATIO_INTERACTIVE = 0.75;
+// HIGH = nitidez quando a câmera está parada. INTERACTIVE entra durante
+// drag/zoom/fling e ainda economiza ~38% de fragmentos no desktop. Os
+// valores foram subidos pra reduzir borrão visível em telas de DPR alto
+// (mobile costuma ter DPR=3, então até 2.0 ainda é metade da resolução nativa).
+const PIXEL_RATIO_HIGH = 2.0;
+const PIXEL_RATIO_INTERACTIVE = 1.25;
 // Frames de câmera estática antes de voltar pra HIGH. ~4 frames @ 60fps =
 // 67ms; suficiente pra confirmar que o damping decaiu e evita flicker.
 const STABLE_FRAMES_BEFORE_RESTORE = 4;

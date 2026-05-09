@@ -7,6 +7,7 @@ import { Animations } from './interaction/Animations.js';
 import { readHexFromUrl, unlock } from './access/decrypt.js';
 import { installProtections } from './access/protection.js';
 import { render404 } from './access/notfound.js';
+import { showLoading, hideLoading } from './access/loading.js';
 
 async function main() {
   installProtections();
@@ -17,6 +18,8 @@ async function main() {
     render404();
     return;
   }
+
+  showLoading();
 
   const root = document.getElementById('app');
   const sceneManager = new SceneManager(root);
@@ -62,10 +65,6 @@ async function main() {
 
   universe.spawn(mediaPool);
 
-  // Universe is ready — switch the page background so the textured planes
-  // read against the original light backdrop.
-  document.body.style.background = '#ffffff';
-
   // Por frame: esconde partículas longe / fora do frustum, pausa seus vídeos
   // e aplica o drift idle (cachoeira contínua quando ninguém interage).
   let _lastTickMs = performance.now();
@@ -78,6 +77,7 @@ async function main() {
   });
 
   sceneManager.start();
+  hideLoading();
   requestAnimationFrame(() => {
     if (universe.particles.length > 0) {
       animations.playIntro(universe.particles);
