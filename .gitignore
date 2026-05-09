@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+*.log
+
+src/assets/media/
+src/assets/media_processed/
+src/assets/media_originals/
